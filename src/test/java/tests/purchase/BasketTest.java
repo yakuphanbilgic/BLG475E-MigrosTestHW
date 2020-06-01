@@ -43,4 +43,27 @@ public class BasketTest extends AbstractTest
         String summaryTotal = basketPage.basketTotal.getText();
         Assert.assertEquals(basketTotal, summaryTotal);
     }
+
+    @Test
+    public void testBez(){
+        // TODO: Add login
+
+        MainPage mainPage = new MainPage(browser);
+        browser.waitAndClick(mainPage.babyToyMenu);
+
+        CategoryPage categoryPage = new CategoryPage(browser);
+        browser.waitAndClick(categoryPage.cookieDismissButton);
+
+        browser.waitAndClick(categoryPage.bezButton);
+
+        browser.waitAndClick(categoryPage.primaButton);
+
+        browser.waitAndClick(categoryPage.sizeButton);
+
+        browser.waitAndClick(categoryPage.orderButton);
+
+        browser.waitAndClick(categoryPage.ascendingPriceOrder);
+
+        browser.waitAndClick(categoryPage.addBasket);
+    }
 }

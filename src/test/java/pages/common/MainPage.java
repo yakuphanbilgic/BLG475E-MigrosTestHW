@@ -15,8 +15,11 @@ public class MainPage extends AbstractPage
     @FindBy(id = "membership-login-link")
     public WebElement loginButton;
 
-    @FindBy(linkText = "Et, Balık, Kümes")
+    @FindBy(linkText = "Et, Tavuk, Balık")
     public WebElement meatFishChichkenMenu;
+
+    @FindBy(linkText = "Bebek, Oyuncak")
+    public WebElement babyToyMenu;
 
     @FindBy(css = "a[data-monitor-ga-action='Kırmızı Et']")
     public WebElement meatCategory;
