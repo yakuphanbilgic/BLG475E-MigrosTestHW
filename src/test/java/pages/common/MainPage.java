@@ -15,16 +15,10 @@ public class MainPage extends AbstractPage
     @FindBy(id = "membership-login-link")
     public WebElement loginButton;
 
-    @FindBy(linkText = "Et, Tavuk, Balık")
-    public WebElement meatFishChichkenMenu;
-
     @FindBy(linkText = "Bebek, Oyuncak")
     public WebElement babyToyMenu;
 
-    @FindBy(css = "a[data-monitor-ga-action='Kırmızı Et']")
-    public WebElement meatCategory;
-
-    @FindBy(css = ".shoping-cart-icon-block .fa-shopping-cart")
+    @FindBy(css = "#headerCartContainer > div.header-cart > div.shoping-cart-icon-block")
     public WebElement shoppingBasketButton;
 
     @FindBy(className = "progress-bar-text")
@@ -33,9 +27,13 @@ public class MainPage extends AbstractPage
     @FindBy(css = ".action-td .plus-orange")
     public WebElement plusButton;
 
-    @FindBy(className = "rubbish")
+    @FindBy(xpath = "//*[@id=\"cart-bar\"]/div/div[2]/ul/li/form/table/tbody/tr[1]/td[5]/a/i")
     public WebElement trashButton;
 
     @FindBy(className = "go-to-basket-button")
     public WebElement goToBasketButton;
+
+    @FindBy(xpath = "//*[@id=\"deliveryFromStoreAnnouncement\"]/div/div/div/button")
+    public WebElement closeAnnouncementPopUp;
+
 }

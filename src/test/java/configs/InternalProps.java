@@ -2,7 +2,7 @@ package configs;
 
 public class InternalProps extends AbstractProps
 {
-    private String username;
+    private String phoneNumber;
     private String password;
 
 
@@ -10,21 +10,21 @@ public class InternalProps extends AbstractProps
     {
         loadConfigProperties("internal_config.properties");
 
-        this.username = configProps.getProperty("user.name");
+        this.phoneNumber = configProps.getProperty("user.phoneNumber");
         this.password = configProps.getProperty("user.password");
     }
 
     //Getters and Setters
 
 
-    public String getUsername()
+    public String getPhoneNumber()
     {
-        return username;
+        return phoneNumber;
     }
 
-    public void setUsername(String username)
+    public void setPhoneNumber(String phoneNumber)
     {
-        this.username = username;
+        this.phoneNumber = phoneNumber;
     }
 
     public String getPassword()

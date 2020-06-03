@@ -48,9 +48,8 @@ public class Waiter
 
     }
 
-    public static void sleep()
-    {
-        sleep(DEFAULT_SLEEP);
+    public static void loginWait(long miliseconds){
+        sleep(miliseconds);
     }
 
     private static void sleep(long miliseconds)

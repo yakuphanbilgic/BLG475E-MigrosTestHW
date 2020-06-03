@@ -18,6 +18,10 @@ public class Browser implements WebDriver
         this.driver = driver;
     }
 
+    public void loginWait(long miliseconds){
+        Waiter.loginWait(miliseconds);
+    }
+
     public void waitForLoad()
     {
         Waiter.waitForAjaxLoad(this);

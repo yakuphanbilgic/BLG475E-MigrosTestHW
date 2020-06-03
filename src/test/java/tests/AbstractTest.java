@@ -27,17 +27,18 @@ public class AbstractTest
     }
 
 
-    public void login(String username, String password)
+    public void login(String username)
     {
         MainPage mainPage = new MainPage(browser);
         browser.waitAndClick(mainPage.loginButton);
 
         LoginPage loginPage = new LoginPage(browser);
 
-        browser.waitAndSendKeys(loginPage.inputEmail, username);
-        browser.waitAndSendKeys(loginPage.inputPassword, password);
+        browser.waitAndSendKeys(loginPage.inputPhoneNumber, username);
 
         browser.waitAndClick(loginPage.loginButton);
+
+        browser.loginWait(25000);
 
         Assert.assertNotNull(loginPage.displayName.getText());
     }
