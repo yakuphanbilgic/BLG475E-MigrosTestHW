@@ -14,7 +14,7 @@ public class BasketPage extends AbstractPage
         super(browser);
     }
 
-    @FindBy(css = "#cloth-bag-input")
+    @FindBy(id = "cloth-bag-input")
     public WebElement bagButton;
 
     @FindBy(id = "summaryRevenue")

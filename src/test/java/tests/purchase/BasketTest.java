@@ -2,6 +2,8 @@ package tests.purchase;
 
 import org.junit.Assert;
 import org.junit.Test;
+import org.openqa.selenium.interactions.Action;
+import org.openqa.selenium.interactions.Actions;
 import pages.common.CategoryPage;
 import pages.common.MainPage;
 import pages.purchase.BasketPage;
@@ -57,11 +59,11 @@ public class BasketTest extends AbstractTest
 
         browser.waitAndClick(mainPage.closeAnnouncementPopUp);
 
+        browser.waitAndClick(categoryPage.cookieDismissButton);
+
         clearBasket();
 
         browser.waitAndClick(mainPage.babyToyMenu);
-
-        browser.waitAndClick(categoryPage.cookieDismissButton);
 
         browser.waitAndClick(categoryPage.bezButton);
 
@@ -74,6 +76,10 @@ public class BasketTest extends AbstractTest
         browser.waitAndClick(categoryPage.sizeButton);
 
         String itemPrice = categoryPage.prices.get(0).getText();
+        String [] splittedPrice = itemPrice.split(" ");
+        Double basePrice = Double.valueOf(splittedPrice[0].replace(",", "."));
+
+        Double finalPrice = basePrice;
 
         browser.waitAndClick(categoryPage.addItemToBasket);
 
@@ -82,22 +88,34 @@ public class BasketTest extends AbstractTest
         while (browser.isElementDisplayed(mainPage.progressBarText))
         {
             browser.waitAndClick(mainPage.plusButton);
-            itemPrice += itemPrice;
+            finalPrice = finalPrice + basePrice;
         }
 
         browser.waitAndClick(mainPage.goToBasketButton);
 
         browser.waitAndClick(basketPage.closePopUp);
 
-        if(itemPrice.equals(basketPage.basketTotal.getText())){
+        String finalPriceString = basketPage.basketTotal.getText();
+        String [] splittedFinalPrice = finalPriceString.split(" ");
+        Double finalBasketPrice = Double.valueOf(splittedFinalPrice[0].replace(",", "."));
+
+        if(finalPrice.equals(finalBasketPrice)){
             System.out.println("PRICES ARE SAME");
-            browser.waitAndClick(basketPage.bagButton);
+
+            //TODO fix this.
+            Actions action = new Actions(browser);
+            action.moveToElement(basketPage.bagButton).click().build().perform();
+
             browser.waitAndClick(basketPage.approveBasket);
-            Assert.assertEquals(itemPrice, basketPage.basketTotal.getText());
+
+            browser.loginWait(3000);
+
+            System.out.println("Test is done");
+            Assert.assertEquals(finalPrice, finalBasketPrice);
         }
         else {
             System.out.println("PRICES ARE NOT SAME");
-            Assert.assertEquals(itemPrice, basketPage.basketTotal.getText());
+            Assert.assertEquals(finalPrice, finalBasketPrice);
             // fail the test.
         }
 

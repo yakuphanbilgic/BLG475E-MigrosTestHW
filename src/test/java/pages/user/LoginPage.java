@@ -12,13 +12,13 @@ public class LoginPage extends AbstractPage
         super(browser);
     }
 
-    @FindBy(xpath = "//*[@id=\"phoneNumber\"]")
+    @FindBy(id = "phoneNumber")
     public WebElement inputPhoneNumber;
 
     @FindBy(id = "membership-modal-login-button")
     public WebElement loginButton;
 
-    @FindBy(css = "#header-sticky > div.container.h-web-container.visible-md-block.visible-lg-block > div > div.col-sm-4.col-md-4.header-sticky-col-right > div > div.col-sm-5.member-col > div > div > a > span")
+    @FindBy(xpath = "//*[@id=\"header-sticky\"]/div[1]/div/div[3]/div/div/div/div/a/span")
     public WebElement displayName;
 
     @FindBy(id = "otp-error-message")
