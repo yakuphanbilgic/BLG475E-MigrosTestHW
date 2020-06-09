@@ -17,7 +17,7 @@ public class TestContext
     public Browser doCreateBrowser()
     {
         // Optional, if not specified, WebDriver will search your path for chromedriver.
-        System.setProperty("webdriver.chrome.driver", "/Users/yakuphanbilgic/Desktop/d/İTÜ/2020-2021 | Summer/test/hw3/chromedriver");
+        System.setProperty("webdriver.chrome.driver", "C:\\Users\\sabri\\Desktop\\chromedriver.exe");
         // initialize webdriver
         WebDriver driver = new ChromeDriver();
 

@@ -57,9 +57,15 @@ public class BasketTest extends AbstractTest
 
         login(context.getInternalProps().getPhoneNumber());
 
-        browser.waitAndClick(mainPage.closeAnnouncementPopUp);
+        if (browser.isElementDisplayed(mainPage.closeAnnouncementPopUp)){
+            mainPage.closeAnnouncementPopUp.click();
+        }
 
-        browser.waitAndClick(categoryPage.cookieDismissButton);
+        if (browser.isElementDisplayed(categoryPage.cookieDismissButton)){
+            categoryPage.cookieDismissButton.click();
+        }
+
+        //browser.waitAndClick(categoryPage.cookieDismissButton);
 
         clearBasket();
 
@@ -104,11 +110,11 @@ public class BasketTest extends AbstractTest
 
             //TODO fix this.
             Actions action = new Actions(browser);
-            action.moveToElement(basketPage.bagButton).click().build().perform();
+            action.moveToElement(basketPage.bagButton).click();
 
             browser.waitAndClick(basketPage.approveBasket);
 
-            browser.loginWait(3000);
+            browser.loginWait(7000);
 
             System.out.println("Test is done");
             Assert.assertEquals(finalPrice, finalBasketPrice);
