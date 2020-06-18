@@ -53,7 +53,7 @@ public class BasketTest extends AbstractTest
     public void testBez(){
         MainPage mainPage = new MainPage(browser);
         CategoryPage categoryPage = new CategoryPage(browser);
-        BasketPage basketPage = new BasketPage(browser);
+        //BasketPage basketPage = new BasketPage(browser);
 
         login(context.getInternalProps().getPhoneNumber());
 
@@ -81,7 +81,9 @@ public class BasketTest extends AbstractTest
 
         browser.waitAndClick(categoryPage.sizeButton);
 
-        String itemPrice = categoryPage.prices.get(0).getText();
+        successfulProceedToBasket(categoryPage.prices.get(0).getText());
+
+        /*String itemPrice = categoryPage.prices.get(0).getText();
         String [] splittedPrice = itemPrice.split(" ");
         Double basePrice = Double.valueOf(splittedPrice[0].replace(",", "."));
 
@@ -123,7 +125,7 @@ public class BasketTest extends AbstractTest
             System.out.println("PRICES ARE NOT SAME");
             Assert.assertEquals(finalPrice, finalBasketPrice);
             // fail the test.
-        }
+        }*/
 
     }
 }

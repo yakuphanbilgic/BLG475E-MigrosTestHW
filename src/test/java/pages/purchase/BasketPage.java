@@ -26,4 +26,5 @@ public class BasketPage extends AbstractPage
     //This might not work as intended
     @FindBy(css = "#cartCampaignModal > div > div > div.modal-header > button")
     public WebElement closePopUp;
+
 }
