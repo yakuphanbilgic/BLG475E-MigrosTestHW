@@ -1,10 +1,10 @@
 package tests;
 
-import org.junit.AfterClass;
+import org.junit.Before;
 import org.junit.Assert;
-import org.junit.BeforeClass;
+import org.junit.After;
+import org.openqa.selenium.NoSuchElementException;
 import org.openqa.selenium.interactions.Actions;
-import org.openqa.selenium.interactions.SourceType;
 import pages.common.CategoryPage;
 import pages.common.MainPage;
 import pages.purchase.BasketPage;
@@ -14,22 +14,26 @@ import utils.TestContext;
 
 public class AbstractTest
 {
-    public static TestContext context = new TestContext();
-    public static Browser browser = context.doCreateBrowser();
+    public static TestContext context;
+    public static Browser browser;
     Double threshold = 60.00;
-    MainPage mainPage = new MainPage(browser);
-    CategoryPage categoryPage = new CategoryPage(browser);
-    BasketPage basketPage = new BasketPage(browser);
+    MainPage mainPage;
+    CategoryPage categoryPage;
+    BasketPage basketPage;
 
-
-    @BeforeClass
-    public static void setUpClass()
+    @Before
+    public void setUpClass()
     {
+        context = new TestContext();
+        browser = context.doCreateBrowser();
         browser.get("https://www.migros.com.tr");
+        mainPage = new MainPage(browser);
+        categoryPage = new CategoryPage(browser);
+        basketPage = new BasketPage(browser);
     }
 
-    @AfterClass
-    public static void tearDownClass()
+    @After
+    public void tearDownClass()
     {
         if (null != browser)
             browser.quit();
@@ -37,9 +41,17 @@ public class AbstractTest
 
     public void login(String username)
     {
-        browser.waitAndClick(mainPage.loginButton);
-
         LoginPage loginPage = new LoginPage(browser);
+
+        try{
+            loginPage.loginButton.isDisplayed();
+        }
+        catch (NoSuchElementException e){
+            browser.waitAndClick(mainPage.loginButton);
+        }
+
+        Actions action = new Actions(browser);
+        action.moveToElement(loginPage.inputPhoneNumber).click();
 
         browser.waitAndSendKeys(loginPage.inputPhoneNumber, username);
 
@@ -79,11 +91,9 @@ public class AbstractTest
         browser.waitAndClick(categoryPage.sizeButton);
     }
 
-    public void successfulProceedToBasket(String price)
+    public void successfullyProceedToBasketWhileLoggedIn(String price)
     {
-
-        String itemPrice = price;
-        String [] splitPrice = itemPrice.split(" ");
+        String [] splitPrice = price.split(" ");
         Double basePrice = Double.valueOf(splitPrice[0].replace(",", "."));
 
         Double finalPrice = basePrice;
@@ -107,7 +117,46 @@ public class AbstractTest
         checkApproveBasketButtonIfPriceIsSmallerThanThreshold(finalBasketPrice);
 
         if(finalPrice.equals(finalBasketPrice)){
-            //TODO fix this.
+            Actions action = new Actions(browser);
+            action.moveToElement(basketPage.bagButton).click();
+
+            browser.waitAndClick(basketPage.approveBasket);
+
+            browser.loginWait(25000);
+
+            System.out.println("Test is done");
+            Assert.assertEquals(finalPrice, finalBasketPrice);
+        }
+        else {
+            System.out.println("PRICES ARE NOT SAME");
+            Assert.assertEquals(finalPrice, finalBasketPrice);
+        }
+    }
+
+    public void successfullyProceedToBasketAfterLogin(String price)
+    {
+        String [] splitPrice = price.split(" ");
+        Double basePrice = Double.valueOf(splitPrice[0].replace(",", "."));
+
+        Double finalPrice = basePrice;
+
+        browser.waitAndClick(mainPage.shoppingBasketButton);
+
+        finalPrice = checkProgressBarIfPriceIsBiggerThanThreshold(finalPrice, basePrice);
+
+        browser.waitAndClick(mainPage.goToBasketButton);
+
+        if(basketPage.closePopUp.isDisplayed()){
+            browser.waitAndClick(basketPage.closePopUp);
+        }
+
+        String finalPriceString = basketPage.basketTotal.getText();
+        String [] splitFinalPrice = finalPriceString.split(" ");
+        Double finalBasketPrice = Double.valueOf(splitFinalPrice[0].replace(",", "."));
+
+        checkApproveBasketButtonIfPriceIsSmallerThanThreshold(finalBasketPrice);
+
+        if(finalPrice.equals(finalBasketPrice)){
             Actions action = new Actions(browser);
             action.moveToElement(basketPage.bagButton).click();
 
