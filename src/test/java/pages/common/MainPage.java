@@ -27,8 +27,8 @@ public class MainPage extends AbstractPage
     @FindBy(css = ".action-td .plus-orange")
     public WebElement plusButton;
 
-   // @FindBy(xpath = "//*[@id=\"cart-bar\"]/div/div[2]/ul/li/form/table/tbody/tr[1]/td[5]/a/i")
-    @FindBy(css = "a[data-store='20000000001078']")
+    //@FindBy(css = "a[data-store='20000000004311']")
+    @FindBy(xpath = "//*[@id=\"cart-bar\"]/div/div[2]/ul/li/form/table/tbody/tr[1]/td[5]/a/i")
     public WebElement trashButton;
 
     @FindBy(className = "go-to-basket-button")

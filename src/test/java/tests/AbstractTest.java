@@ -32,9 +32,8 @@ public class AbstractTest
     public static void tearDownClass()
     {
         if (null != browser)
-            browser.close();
+            browser.quit();
     }
-
 
     public void login(String username)
     {
@@ -44,11 +43,11 @@ public class AbstractTest
 
         browser.waitAndSendKeys(loginPage.inputPhoneNumber, username);
 
-        checkTimeProgressBar();
-
         browser.waitAndClick(loginPage.loginButton);
 
-        browser.loginWait(25000);
+        checkTekrarGonderButtonDisabled();
+
+        browser.loginWait(30000);
 
         Assert.assertNotNull(loginPage.displayName.getText());
     }
@@ -63,6 +62,21 @@ public class AbstractTest
         }
 
         browser.waitAndClick(mainPage.shoppingBasketButton);
+    }
+
+    public void selectPrimaSizeFourAndOrder()
+    {
+        browser.waitAndClick(mainPage.babyToyMenu);
+
+        browser.waitAndClick(categoryPage.bezButton);
+
+        browser.waitAndClick(categoryPage.primaButton);
+
+        browser.waitAndClick(categoryPage.orderButton);
+
+        browser.waitAndClick(categoryPage.ascendingPriceOrder);
+
+        browser.waitAndClick(categoryPage.sizeButton);
     }
 
     public void successfulProceedToBasket(String price)
@@ -82,7 +96,9 @@ public class AbstractTest
 
         browser.waitAndClick(mainPage.goToBasketButton);
 
-        browser.waitAndClick(basketPage.closePopUp);
+        if(basketPage.closePopUp.isDisplayed()){
+            browser.waitAndClick(basketPage.closePopUp);
+        }
 
         String finalPriceString = basketPage.basketTotal.getText();
         String [] splitFinalPrice = finalPriceString.split(" ");
@@ -91,8 +107,6 @@ public class AbstractTest
         checkApproveBasketButtonIfPriceIsSmallerThanThreshold(finalBasketPrice);
 
         if(finalPrice.equals(finalBasketPrice)){
-            System.out.println("PRICES ARE SAME");
-
             //TODO fix this.
             Actions action = new Actions(browser);
             action.moveToElement(basketPage.bagButton).click();
@@ -107,7 +121,6 @@ public class AbstractTest
         else {
             System.out.println("PRICES ARE NOT SAME");
             Assert.assertEquals(finalPrice, finalBasketPrice);
-            // fail the test.
         }
     }
 
@@ -137,11 +150,27 @@ public class AbstractTest
         return finalPrice;
     }
 
-    public void checkTimeProgressBar()
+    public void checkTekrarGonderButtonDisabled()
     {
-        LoginPage loginPage = new LoginPage(browser);
-        System.out.println(loginPage.loginProgressBar.getText());
         /*If time progress bar button is not 0:00, tekrar gonder should be disabled
-        * If it is 0:00, login button should completely disappear*/
+         * If it is 0:00, login button should completely disappear*/
+        LoginPage loginPage = new LoginPage(browser);
+
+        String time = loginPage.loginProgressBar.getText();
+
+        if(!time.equals("0:00")){
+            Assert.assertTrue(loginPage.sendAgainDisabledButton.isEnabled());
+        }
+    }
+
+    public void closeCookieAndPopups()
+    {
+        if (browser.isElementDisplayed(mainPage.closeAnnouncementPopUp)){
+            mainPage.closeAnnouncementPopUp.click();
+        }
+
+        if (browser.isElementDisplayed(categoryPage.cookieDismissButton)){
+            categoryPage.cookieDismissButton.click();
+        }
     }
 }

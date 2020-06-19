@@ -24,6 +24,9 @@ public class LoginPage extends AbstractPage
     @FindBy(id = "otp-error-message")
     public WebElement errorMessage;
 
+    @FindBy(xpath = "//*[@id=\"sendAgainOtpPass\"]")
+    public WebElement sendAgainDisabledButton;
+
     @FindBy(xpath = "//*[@id=\"otp-progress\"]/span")
     public WebElement loginProgressBar;
 }
